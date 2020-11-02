@@ -6,10 +6,12 @@
 
 bees::bees() {
     armor = 3;
+    damage = 1;
 }
 
 bees::bees(bees &orig) {
     this->armor = orig.armor;
+    this->damage = orig.damage;
 }
 
 bees::~bees() {

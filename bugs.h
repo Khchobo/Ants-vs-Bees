@@ -22,11 +22,16 @@ public:
 
     int armor;
 
+    int damage;
+
     // symbol used to represent as a character on the game board
     std::string symbol;
 
     // This one will need some thought, this is placeholder
     bool move(int xCoord);
+
+    int getArmor();
+    void setArmor(int currArmor);
 };
 
 
