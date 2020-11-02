@@ -15,7 +15,7 @@ public:
     fire();
 
     // Copy Constructor
-    fire(&orig);
+    fire(fire &orig);
 
     // Destructor
     ~fire();

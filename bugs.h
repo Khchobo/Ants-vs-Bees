@@ -5,6 +5,7 @@
 #ifndef ANTS_VS_BEES_BUGS_H
 #define ANTS_VS_BEES_BUGS_H
 
+#include <string>
 
 class bugs {
 
@@ -14,12 +15,18 @@ public:
     bugs();
 
     // Copy Constructor
-    bugs(&orig);
+    bugs(bugs &orig);
 
     // Destructor
     ~bugs();
 
+    int armor;
 
+    // symbol used to represent as a character on the game board
+    std::string symbol;
+
+    // This one will need some thought, this is placeholder
+    bool move(int xCoord);
 };
 
 

@@ -3,3 +3,16 @@
 //
 
 #include "bodyguard.h"
+
+bodyguard::bodyguard() {
+    foodCost = 4;
+    armor = 2;
+}
+
+bodyguard::bodyguard(bodyguard &orig) {
+
+}
+
+bodyguard::~bodyguard() {
+
+}

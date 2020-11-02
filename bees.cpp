@@ -4,6 +4,14 @@
 
 #include "bees.h"
 
-void move(int xCoord) {
+bees::bees() {
+    armor = 3;
+}
+
+bees::bees(bees &orig) {
+    this->armor = orig.armor;
+}
+
+bees::~bees() {
 
 }

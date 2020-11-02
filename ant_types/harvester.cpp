@@ -3,3 +3,16 @@
 //
 
 #include "harvester.h"
+
+harvester::harvester() {
+    foodCost = 2;
+    armor = 1;
+}
+
+harvester::harvester(harvester &orig) {
+
+}
+
+harvester::~harvester() {
+
+}

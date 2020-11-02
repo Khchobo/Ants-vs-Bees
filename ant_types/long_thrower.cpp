@@ -3,3 +3,16 @@
 //
 
 #include "long_thrower.h"
+
+long_thrower::long_thrower() {
+    foodCost = 3;
+    armor = 1;
+}
+
+long_thrower::long_thrower(long_thrower &orig) {
+
+}
+
+long_thrower::~long_thrower() {
+
+}

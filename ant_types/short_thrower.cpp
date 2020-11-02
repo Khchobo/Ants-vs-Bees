@@ -3,3 +3,16 @@
 //
 
 #include "short_thrower.h"
+
+short_thrower::short_thrower() {
+    foodCost = 3;
+    armor = 1;
+}
+
+short_thrower::short_thrower(short_thrower &orig) {
+
+}
+
+short_thrower::~short_thrower() {
+
+}

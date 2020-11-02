@@ -3,3 +3,16 @@
 //
 
 #include "thrower.h"
+
+thrower::thrower() {
+    foodCost = 4;
+    armor = 1;
+}
+
+thrower::thrower(thrower &orig) {
+
+}
+
+thrower::~thrower() {
+
+}

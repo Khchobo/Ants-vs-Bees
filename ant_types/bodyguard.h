@@ -15,7 +15,7 @@ public:
     bodyguard();
 
     // Copy Constructor
-    bodyguard(&orig);
+    bodyguard(bodyguard &orig);
 
     // Destructor
     ~bodyguard();

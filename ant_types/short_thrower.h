@@ -15,7 +15,7 @@ public:
     short_thrower();
 
     // Copy Constructor
-    short_thrower(&orig);
+    short_thrower(short_thrower &orig);
 
     // Destructor
     ~short_thrower();

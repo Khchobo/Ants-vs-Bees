@@ -3,3 +3,16 @@
 //
 
 #include "fire.h"
+
+fire::fire() {
+    foodCost = 4;
+    armor = 1;
+}
+
+fire::fire(fire &orig) {
+
+}
+
+fire::~fire() {
+
+}

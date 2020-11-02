@@ -15,7 +15,7 @@ public:
     long_thrower();
 
     // Copy Constructor
-    long_thrower(&orig);
+    long_thrower(long_thrower &orig);
 
     // Destructor
     ~long_thrower();

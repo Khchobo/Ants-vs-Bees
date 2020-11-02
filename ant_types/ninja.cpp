@@ -3,3 +3,16 @@
 //
 
 #include "ninja.h"
+
+ninja::ninja() {
+    foodCost = 6;
+    armor = 1;
+}
+
+ninja::ninja(ninja &orig) {
+
+}
+
+ninja::~ninja() {
+
+}

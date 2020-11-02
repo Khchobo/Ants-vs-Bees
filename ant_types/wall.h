@@ -15,7 +15,7 @@ public:
     wall();
 
     // Copy Constructor
-    wall(&orig);
+    wall(wall &orig);
 
     // Destructor
     ~wall();

@@ -15,7 +15,7 @@ public:
     harvester();
 
     // Copy Constructor
-    harvester(&orig);
+    harvester(harvester &orig);
 
     // Destructor
     ~harvester();

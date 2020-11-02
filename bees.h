@@ -5,8 +5,9 @@
 #ifndef ANTS_VS_BEES_BEES_H
 #define ANTS_VS_BEES_BEES_H
 
+#include "bugs.h"
 
-class bees {
+class bees: public bugs {
 
 public:
 
@@ -14,17 +15,15 @@ public:
     bees();
 
     // Copy Constructor
-    bees(&orig);
+    bees(bees &orig);
 
     // Destructor
     ~bees();
 
-
-    int armor;
     int damage;
 
     // This one will need some thought, this is placeholder
-    void move(int xCoord);
+    bool move(int xCoord);
 
 };
 

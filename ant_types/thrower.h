@@ -15,7 +15,7 @@ public:
     thrower();
 
     // Copy Constructor
-    thrower(&orig);
+    thrower(thrower &orig);
 
     // Destructor
     ~thrower();

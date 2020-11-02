@@ -15,7 +15,7 @@ public:
     ninja();
 
     // Copy Constructor
-    ninja(&orig);
+    ninja(ninja &orig);
 
     // Destructor
     ~ninja();

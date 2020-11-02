@@ -5,8 +5,11 @@
 #ifndef ANTS_VS_BEES_ANTS_H
 #define ANTS_VS_BEES_ANTS_H
 
+#include "bugs.h"
+#include <string>
 
-class ants {
+
+class ants: public bugs {
 
 public:
 
@@ -14,10 +17,12 @@ public:
     ants();
 
     // Copy Constructor
-    ants(&orig);
+    ants(ants &orig);
 
     // Destructor
     ~ants();
+
+    int foodCost;
 
 };
 
