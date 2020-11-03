@@ -6,7 +6,16 @@
 
 ants::ants() {
     foodCost = 0;
+    isVacant = false;
+    symbol = "A";
+}
 
+ants::ants(bool isQueen) {
+    if(isQueen) {
+        symbol = "Q";
+    }
+    foodCost = 0;
+    isVacant = false;
 }
 
 ants::ants(ants &orig) {

@@ -7,6 +7,7 @@
 short_thrower::short_thrower() {
     foodCost = 3;
     armor = 1;
+    symbol = "S-Throw";
 }
 
 short_thrower::short_thrower(short_thrower &orig) {

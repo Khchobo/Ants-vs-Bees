@@ -7,6 +7,7 @@
 thrower::thrower() {
     foodCost = 4;
     armor = 1;
+    symbol = "Throw";
 }
 
 thrower::thrower(thrower &orig) {

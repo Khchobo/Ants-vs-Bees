@@ -7,6 +7,8 @@
 bees::bees() {
     armor = 3;
     damage = 1;
+    isVacant = false;
+    symbol = "Bee";
 }
 
 bees::bees(bees &orig) {

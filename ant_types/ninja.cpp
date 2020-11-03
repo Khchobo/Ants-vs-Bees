@@ -7,6 +7,7 @@
 ninja::ninja() {
     foodCost = 6;
     armor = 1;
+    symbol = "Ninja";
 }
 
 ninja::ninja(ninja &orig) {

@@ -17,7 +17,11 @@ public:
     // Copy Constructor
     bugs(bugs &orig);
 
-    // Destructor
+    bugs & operator=(const bugs &right);
+
+    bugs(nullptr_t pVoid);
+
+// Destructor
     ~bugs();
 
     int armor;
@@ -29,6 +33,8 @@ public:
 
     // This one will need some thought, this is placeholder
     bool move(int xCoord);
+
+    bool isVacant;
 
     int getArmor();
     void setArmor(int currArmor);

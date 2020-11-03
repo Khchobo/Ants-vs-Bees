@@ -7,6 +7,7 @@
 
 #include <vector>
 #include <string>
+#include "bugs.h"
 
 class game {
 
@@ -20,9 +21,21 @@ public:
 
     void gameLoop();
 
+    // Utility Functions
     void printGameBoard();
+    void addRow();
+    void removeRow();
 
-    std::vector<std::string> gameBoard;
+    void generateBee();
+    void buyAnt();
+    void antAttack();
+    void beesAttack();
+
+    int checkBeeCount();
+    bool queenDead();
+
+    // Game board 2D Vector
+    std::vector<std::vector<bugs>> gameBoard;
 
 };
 #endif //ANTS_VS_BEES_GAME_H

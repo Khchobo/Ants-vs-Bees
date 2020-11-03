@@ -16,6 +16,9 @@ public:
     // Constructor
     ants();
 
+    // Queen Constructor
+    ants(bool isQueen);
+
     // Copy Constructor
     ants(ants &orig);
 

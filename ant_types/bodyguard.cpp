@@ -7,6 +7,7 @@
 bodyguard::bodyguard() {
     foodCost = 4;
     armor = 2;
+    symbol = "BG";
 }
 
 bodyguard::bodyguard(bodyguard &orig) {

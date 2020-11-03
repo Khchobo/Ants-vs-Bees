@@ -7,6 +7,7 @@
 harvester::harvester() {
     foodCost = 2;
     armor = 1;
+    symbol = "Harv";
 }
 
 harvester::harvester(harvester &orig) {

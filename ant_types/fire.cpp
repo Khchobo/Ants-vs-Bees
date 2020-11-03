@@ -7,6 +7,7 @@
 fire::fire() {
     foodCost = 4;
     armor = 1;
+    symbol = "Fire";
 }
 
 fire::fire(fire &orig) {

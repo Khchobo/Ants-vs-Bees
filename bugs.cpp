@@ -7,18 +7,33 @@
 bugs::bugs() {
     armor = 0;
     damage = 0;
-    std::string symbol;
+    symbol = "";
+    isVacant = true;
 }
 
 bugs::bugs(bugs &orig) {
     this->armor = orig.armor;
     this->symbol = orig.symbol;
     this->damage = orig.damage;
+    this->isVacant = orig.isVacant;
+}
+
+bugs & bugs::operator=(const bugs &right) {
+    if (&right == this)
+        return (*this);
+
+    this->armor = right.armor;
+    this->symbol = right.symbol;
+    this->damage = right.damage;
+    this->isVacant = right.isVacant;
+
+    return (*this);
 }
 
 bugs::~bugs() {
 
 }
+
 
 // this one might be tricky
 bool bugs::move(int xCoord) {
@@ -31,4 +46,9 @@ int bugs::getArmor() {
 
 void bugs::setArmor(int currArmor) {
     this->armor = currArmor;
+}
+
+// ????
+bugs::bugs(nullptr_t pVoid) {
+
 }

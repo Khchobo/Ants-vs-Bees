@@ -7,6 +7,7 @@
 long_thrower::long_thrower() {
     foodCost = 3;
     armor = 1;
+    symbol = "L-Throw";
 }
 
 long_thrower::long_thrower(long_thrower &orig) {

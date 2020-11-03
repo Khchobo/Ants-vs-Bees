@@ -7,6 +7,7 @@
 wall::wall() {
     foodCost = 4;
     armor = 4;
+    symbol = "Wall";
 }
 
 wall::wall(wall &orig) {
