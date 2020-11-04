@@ -33,7 +33,7 @@ public:
     void generateBee();
     void generateAnt(int location);
     void buyAnt();
-    void placeAnt();
+    void placeAnt(int antId);
     void antAttack();
     void beesAttack(bugs b);
 

@@ -10,7 +10,14 @@
 #include "bugs.h"
 #include "ants.h"
 #include "bees.h"
+#include "./ant_types/harvester.h"
+#include "./ant_types/thrower.h"
 #include "./ant_types/fire.h"
+#include "./ant_types/long_thrower.h"
+#include "./ant_types/short_thrower.h"
+#include "./ant_types/wall.h"
+#include "./ant_types/ninja.h"
+#include "./ant_types/bodyguard.h"
 
 using namespace std;
 
@@ -22,7 +29,7 @@ game::game() {
 
         // Initializing the Queen
         gameBoard[0][0] = ants(true);
-        gameBoard[0][6] = fire();
+        //gameBoard[0][6] = fire();
     /**
      *  [Q], [], [], [], [], [], [], [], [Fire], [Bee, Bee]
      */
@@ -173,33 +180,64 @@ void game::buyAnt() {
 
     switch (type) {
         case 1:
-            placeAnt();
+            placeAnt(1); // Harvester
+            setFood(2);
             break;
         case 2:
-            placeAnt();
+            placeAnt(2); // Thrower
             break;
         case 3:
-            placeAnt();
+            placeAnt(3); // Fire
             break;
         case 4:
-            placeAnt();
+            placeAnt(4); // Long Thrower
             break;
         case 5:
-            placeAnt();
+            placeAnt(5); // Short Thrower
             break;
         case 6:
-            placeAnt();
+            placeAnt(6); // Wall
             break;
         case 7:
-            placeAnt();
+            placeAnt(7); // Ninja
             break;
         case 8:
-            placeAnt();
+            placeAnt(8); // Bodyguard
             break;
     }
 }
 
-void game::placeAnt() {
+void game::placeAnt(int antId) {
+
+    ants a;
+
+    switch (antId) {
+        case 1:
+            a = harvester();
+            break;
+        case 2:
+            a = thrower();
+            break;
+        case 3:
+            a = fire();
+            break;
+        case 4:
+            a = long_thrower();
+            break;
+        case 5:
+            a = short_thrower();
+            break;
+        case 6:
+            a = wall();
+            break;
+        case 7:
+            a = ninja();
+            break;
+        case 8:
+            a = bodyguard();
+            break;
+    }
+
     cout << "--Select a location for the ant--" << endl;
     int location;
 
@@ -209,30 +247,35 @@ void game::placeAnt() {
         getline(cin, input);
         location = parseInt(input);
 
-    } while(location < 1 || location > 10);
+    } while(location < 2 || location > 10);
 
     switch (location) {
-        case 1:
-            break;
         case 2:
+            gameBoard[0][1] = a;
             break;
         case 3:
+            gameBoard[0][2] = a;
             break;
         case 4:
+            gameBoard[0][3] = a;
             break;
         case 5:
+            gameBoard[0][4] = a;
             break;
         case 6:
+            gameBoard[0][5] = a;
             break;
         case 7:
+            gameBoard[0][6] = a;
             break;
         case 8:
+            gameBoard[0][7] = a;
             break;
         case 9:
+            gameBoard[0][8] = a;
             break;
         case 10:
-            break;
-        default:
+            gameBoard[0][9] = a;
             break;
     }
 }
