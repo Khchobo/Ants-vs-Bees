@@ -11,6 +11,8 @@
 
 class game {
 
+    int foodBank;
+
 public:
 
     // Constructor
@@ -25,11 +27,17 @@ public:
     void printGameBoard();
     void addRow();
     void removeRow();
+    void moveBee();
 
     void generateBee();
     void buyAnt();
+    void placeAnt();
     void antAttack();
-    void beesAttack();
+    void beesAttack(bugs b);
+
+
+    int getFood();
+    void setFood(int cost);
 
     int checkBeeCount();
     bool queenDead();

@@ -17,6 +17,7 @@ game::game() {
 
         this-> gameBoard = vector<vector<bugs>> (1);
         this-> gameBoard[0] = vector<bugs>(10);
+        this->foodBank = 50;
 
         // Initializing the Queen
         gameBoard[0][0] = ants(true);
@@ -34,13 +35,15 @@ game::~game() {
 
 void game::gameLoop() {
 
-    printGameBoard();
-
     do {
 
         // 1) A bee is generated on the right side of the board
+        generateBee();
+        printGameBoard();
 
         // 2) The player can generate an ant and place it anywhere on the board
+        buyAnt();
+        break;
 
         // 3) The ants attack the bees. (Order of ant attacks occur left to right)
 
@@ -87,6 +90,7 @@ void game::printGameBoard() {
 
         cout << "[" << i+1 << ": "<< squareBugs << " ] ";
     }
+    cout << endl;
 }
 
 /**
@@ -138,4 +142,95 @@ int game::checkBeeCount() {
     }
 
     return beeCount;
+}
+
+int game::getFood() {
+    return this->foodBank;
+}
+
+void game::setFood(int cost) {
+    this->foodBank = foodBank - cost;
+}
+
+void game::buyAnt() {
+
+    cout << "You have " << this->getFood() << " points" << endl;
+    cout << "--Choose an ant--" << endl;
+    cout << "1) Harvester" << endl;
+    cout << "2) Thrower" << endl;
+    cout << "3) Fire" << endl;
+    cout << "4) Long Thrower" << endl;
+    cout << "5) Short Thrower" << endl;
+    cout << "6) Wall" << endl;
+    cout << "7) Ninja" << endl;
+    cout << "8) Bodyguard" << endl;
+
+    int type;
+    cin >> type;
+
+    switch (type) {
+        case 1:
+            placeAnt();
+            break;
+        case 2:
+            placeAnt();
+            break;
+        case 3:
+            placeAnt();
+            break;
+        case 4:
+            placeAnt();
+            break;
+        case 5:
+            placeAnt();
+            break;
+        case 6:
+            placeAnt();
+            break;
+        case 7:
+            placeAnt();
+            break;
+        case 8:
+            placeAnt();
+            break;
+        default:
+            break;
+    }
+}
+
+void game::placeAnt() {
+    cout << "--Select a location for the ant--" << endl;
+
+    int location;
+    cin >> location;
+
+    switch (location) {
+        case 1:
+            break;
+        case 2:
+            break;
+        case 3:
+            break;
+        case 4:
+            break;
+        case 5:
+            break;
+        case 6:
+            break;
+        case 7:
+            break;
+        case 8:
+            break;
+        case 9:
+            break;
+        case 10:
+            break;
+        default:
+            break;
+    }
+}
+
+void game::generateBee() {
+    addRow();
+    gameBoard[0][9] = bees();
 }
