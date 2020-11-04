@@ -16,13 +16,13 @@ using namespace std;
 
 game::game() {
 
-        this-> gameBoard = vector<vector<bugs>> (1);
-        this-> gameBoard[0] = vector<bugs>(10);
+        this->gameBoard = vector<vector<bugs>> (1);
+        this->gameBoard[0] = vector<bugs>(10);
         this->foodBank = 50;
 
         // Initializing the Queen
         gameBoard[0][0] = ants(true);
-        //gameBoard[0][4] = fire();
+        gameBoard[0][6] = fire();
     /**
      *  [Q], [], [], [], [], [], [], [], [Fire], [Bee, Bee]
      */
@@ -250,16 +250,34 @@ void game::moveBee() {
                 if(gameBoard[0][j-1].symbol != "" && gameBoard[0][j-1].symbol != "Bee" && gameBoard[0][j-1].symbol != "Q") {
                     cout << "battle" << endl;
                 }
-                // There is an ant here
-                else if(gameBoard[1][j-1].symbol != "" && gameBoard[1][j-1].symbol != "Bee" && gameBoard[1][j-1].symbol != "Q") {
-                    cout << "battle" << endl;
-                }
+//                // There is an ant here
+//                else if(gameBoard[1][j-1].symbol != "" && gameBoard[1][j-1].symbol != "Bee" && gameBoard[1][j-1].symbol != "Q") {
+//                    cout << "battle" << endl;
+//                }
 
                 // Move the bees no conflict
-                    // Move bee one to the left
-                    gameBoard[i][j-1] = gameBoard[i][j];
-                    // Remove Bee from that past index
-                    gameBoard[i][j] = bugs();
+                else {
+
+                    // Stack up bees if blocked by other bees
+                    if(gameBoard[i][j-1].symbol == "Bee") {
+
+                        // Need to stack dynamically in a loop
+                        addRow();
+
+                        gameBoard[i+1][j-1] = gameBoard[i][j];
+                        // Remove Bee from that past index
+                        gameBoard[i][j] = bugs();
+                    }
+
+                    // Empty space, just moves bees
+                    else {
+                        // Move bee one to the left
+                        gameBoard[i][j-1] = gameBoard[i][j];
+                        // Remove Bee from that past index
+                        gameBoard[i][j] = bugs();
+                    }
+
+                }
 
             }
             // Non-Bee squares are skipped
