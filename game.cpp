@@ -29,7 +29,7 @@ game::game() {
 
         // Initializing the Queen
         gameBoard[0][0] = ants(true);
-        //gameBoard[0][6] = fire();
+
     /**
      *  [Q], [], [], [], [], [], [], [], [Fire], [Bee, Bee]
      */
@@ -43,21 +43,32 @@ game::~game() {
 
 void game::gameLoop() {
     do {
+
+        cout << "Food bank: " << this->foodBank << endl;
+
         // 1) A bee is generated on the right side of the board
         generateBee();
-        cout << checkBeeCount() << endl;
         printGameBoard();
+        printVectors();
 
         // 2) The player can generate an ant and place it anywhere on the board
-        buyAnt();
+        //    (if they have enough food).
+        if (this->foodBank < 2) {
+            cout << "Insufficient food, can't buy an ant this round" << endl;
+        }
+        else {
+            buyAnt();
+        }
 
         // 3) The ants attack the bees. (Order of ant attacks occur left to right)
-        moveBee();
+            //antAttack();
 
         /**
         * 4) The bees either attack an ant (order of attack is left to right) which is blocking
         * them or pass through to the next square on the board if they are not blocked by an ant
         */
+        moveBee();
+        this->foodBank++; // for testing
 
     } while (!queenDead() && checkBeeCount() > 0);
 
@@ -185,28 +196,45 @@ void game::buyAnt() {
             break;
         case 2:
             placeAnt(2); // Thrower
+            setFood(4);
             break;
         case 3:
             placeAnt(3); // Fire
+            setFood(4);
             break;
         case 4:
             placeAnt(4); // Long Thrower
+            setFood(3);
             break;
         case 5:
             placeAnt(5); // Short Thrower
+            setFood(3);
             break;
         case 6:
             placeAnt(6); // Wall
+            setFood(4);
             break;
         case 7:
             placeAnt(7); // Ninja
+            setFood(6);
             break;
         case 8:
             placeAnt(8); // Bodyguard
+            setFood(4);
             break;
     }
 }
 
+/**
+ * NEED to stack body guard under any other ants
+ * first check if there is an ant already there, then only bodyguard
+ * can be added.
+ */
+
+/**
+ *
+ * @param antId
+ */
 void game::placeAnt(int antId) {
 
     ants a;
@@ -242,7 +270,7 @@ void game::placeAnt(int antId) {
     int location;
 
     do {
-        cout << "Choose an ant option between 1 and 10" << endl;
+        cout << "Choose an ant option between 2 and 10" << endl;
         string input = "";
         getline(cin, input);
         location = parseInt(input);
@@ -280,6 +308,13 @@ void game::placeAnt(int antId) {
     }
 }
 
+/**
+ * @description all ants actions executed here
+ */
+void game::antsAttack() {
+
+}
+
 void game::moveBee() {
 
     for(int i = 0; i < gameBoard.size(); i++) {
@@ -293,31 +328,35 @@ void game::moveBee() {
                 if(gameBoard[0][j-1].symbol != "" && gameBoard[0][j-1].symbol != "Bee" && gameBoard[0][j-1].symbol != "Q") {
                     cout << "battle" << endl;
                 }
+
 //                // There is an ant here
 //                else if(gameBoard[1][j-1].symbol != "" && gameBoard[1][j-1].symbol != "Bee" && gameBoard[1][j-1].symbol != "Q") {
 //                    cout << "battle" << endl;
 //                }
 
-                // Move the bees no conflict
+                // Move the bees, no battles take place
                 else {
 
-                    // Stack up bees if blocked by other bees
-                    if(gameBoard[i][j-1].symbol == "Bee") {
+                    for(int k = 0; k < gameBoard.size(); k++) {
+
+                        // Stack up bees if blocked by other bees (First row)
+                        if (gameBoard[k][j - 1].symbol != "Bee" && k == 0) {
+
+                            gameBoard[k][j - 1] = gameBoard[k][j];
+                            gameBoard[k][j] = bugs();
+                        }
+
+                        // Stack up bees if blocked by other bees (All other rows)
+                        else if (gameBoard[k][j - 1].symbol != "Bee" && k > 0) {
+
+                            gameBoard[k][j - 1] = gameBoard[0][j];
+                            gameBoard[0][j] = bugs();
+                        }
 
                         // Need to stack dynamically in a loop
-                        addRow();
-
-                        gameBoard[i+1][j-1] = gameBoard[i][j];
-                        // Remove Bee from that past index
-                        gameBoard[i][j] = bugs();
-                    }
-
-                    // Empty space, just moves bees
-                    else {
-                        // Move bee one to the left
-                        gameBoard[i][j-1] = gameBoard[i][j];
-                        // Remove Bee from that past index
-                        gameBoard[i][j] = bugs();
+                        else if (k == gameBoard.size() - 1) {
+                            addRow();
+                        }
                     }
 
                 }
@@ -352,13 +391,6 @@ void game::generateBee() {
 }
 
 /**
- *
- */
-void game::generateAnt(int location) {
-
-}
-
-/**
  * @description
  *
  * @param input
@@ -376,4 +408,17 @@ int game::parseInt(std::string &input) {
 
     cout << "invalid input, not an integer" << endl;
     return -1;
+}
+
+void game::printVectors() {
+    cout << "--------------------------------------------------------------" << endl;
+    for(int i = 0; i < gameBoard.size(); i++) {
+
+        for(int j = 0; j < gameBoard[i].size(); j++) {
+            cout << "[" << gameBoard[i][j].symbol << "] ";
+        }
+        cout << "\n";
+    }
+    cout << "--------------------------------------------------------------" << endl;
+
 }

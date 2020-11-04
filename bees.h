@@ -20,8 +20,6 @@ public:
     // Destructor
     ~bees();
 
-    int damage;
-
     // This one will need some thought, this is placeholder
     bool move(int xCoord);
 

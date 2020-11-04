@@ -31,12 +31,12 @@ public:
     int parseInt(std::string &input);
 
     void generateBee();
-    void generateAnt(int location);
     void buyAnt();
     void placeAnt(int antId);
-    void antAttack();
+    void antsAttack();
     void beesAttack(bugs b);
 
+    void printVectors();
 
     int getFood();
     void setFood(int cost);
