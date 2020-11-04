@@ -3,6 +3,7 @@
 //
 
 #include <iostream>
+#include <sstream>
 #include <string>
 #include <vector>
 #include "game.h"
@@ -21,7 +22,7 @@ game::game() {
 
         // Initializing the Queen
         gameBoard[0][0] = ants(true);
-
+        //gameBoard[0][4] = fire();
     /**
      *  [Q], [], [], [], [], [], [], [], [Fire], [Bee, Bee]
      */
@@ -34,30 +35,24 @@ game::~game() {
 }
 
 void game::gameLoop() {
-
     do {
-
         // 1) A bee is generated on the right side of the board
         generateBee();
+        cout << checkBeeCount() << endl;
         printGameBoard();
 
         // 2) The player can generate an ant and place it anywhere on the board
         buyAnt();
-        break;
 
         // 3) The ants attack the bees. (Order of ant attacks occur left to right)
+        moveBee();
 
         /**
         * 4) The bees either attack an ant (order of attack is left to right) which is blocking
         * them or pass through to the next square on the board if they are not blocked by an ant
         */
 
-        /**
-         * 5) Check to see if the bees have reached the queen or if there are any bees left in play,
-         * declare a winner and end the game if either condition is true
-         */
-
-    } while(!queenDead() || checkBeeCount() != 0);
+    } while (!queenDead() && checkBeeCount() > 0);
 
     if(queenDead()) {
         cout << "\n" << "The queen is dead! The bees win!" << endl;
@@ -129,14 +124,15 @@ bool game::queenDead() {
  * @return
  */
 int game::checkBeeCount() {
-    int beeCount = 0;
+
+    this->beeCount = 0;
 
     for(int i = 0; i < gameBoard.size(); i++) {
 
         for(int j = 0; j < gameBoard[i].size(); j++) {
 
-            if(i > 0 && gameBoard[i][j].symbol == "Bee") {
-                beeCount++;
+            if(j > 0 && gameBoard[i][j].symbol == "Bee") {
+                this->beeCount++;
             }
         }
     }
@@ -156,17 +152,24 @@ void game::buyAnt() {
 
     cout << "You have " << this->getFood() << " points" << endl;
     cout << "--Choose an ant--" << endl;
-    cout << "1) Harvester" << endl;
-    cout << "2) Thrower" << endl;
-    cout << "3) Fire" << endl;
-    cout << "4) Long Thrower" << endl;
-    cout << "5) Short Thrower" << endl;
-    cout << "6) Wall" << endl;
-    cout << "7) Ninja" << endl;
-    cout << "8) Bodyguard" << endl;
+    cout << "1) Harvester:" << " 2pts" << endl;
+    cout << "2) Thrower:" << " 4pts" << endl;
+    cout << "3) Fire:" << " 4pts" << endl;
+    cout << "4) Long Thrower:" << " 3pts" << endl;
+    cout << "5) Short Thrower:" << " 3pts" << endl;
+    cout << "6) Wall:" << " 4pts" << endl;
+    cout << "7) Ninja:" << " 6pts" << endl;
+    cout << "8) Bodyguard:" << " 4pts" << endl;
 
-    int type;
-    cin >> type;
+    int type = -1;
+
+    do {
+        cout << "Choose an ant option between 1 and 8" << endl;
+        string input = "";
+        getline(cin, input);
+        type = parseInt(input);
+
+    } while(type < 1 || type > 8);
 
     switch (type) {
         case 1:
@@ -193,16 +196,20 @@ void game::buyAnt() {
         case 8:
             placeAnt();
             break;
-        default:
-            break;
     }
 }
 
 void game::placeAnt() {
     cout << "--Select a location for the ant--" << endl;
-
     int location;
-    cin >> location;
+
+    do {
+        cout << "Choose an ant option between 1 and 10" << endl;
+        string input = "";
+        getline(cin, input);
+        location = parseInt(input);
+
+    } while(location < 1 || location > 10);
 
     switch (location) {
         case 1:
@@ -230,7 +237,82 @@ void game::placeAnt() {
     }
 }
 
+void game::moveBee() {
+
+    for(int i = 0; i < gameBoard.size(); i++) {
+
+        for(int j = 1; j < gameBoard[i].size(); j++) {
+
+            // Bee located
+            if(gameBoard[i][j].symbol == "Bee") {
+
+                // There is an ant here
+                if(gameBoard[0][j-1].symbol != "" && gameBoard[0][j-1].symbol != "Bee" && gameBoard[0][j-1].symbol != "Q") {
+                    cout << "battle" << endl;
+                }
+                // There is an ant here
+                else if(gameBoard[1][j-1].symbol != "" && gameBoard[1][j-1].symbol != "Bee" && gameBoard[1][j-1].symbol != "Q") {
+                    cout << "battle" << endl;
+                }
+
+                // Move the bees no conflict
+                    // Move bee one to the left
+                    gameBoard[i][j-1] = gameBoard[i][j];
+                    // Remove Bee from that past index
+                    gameBoard[i][j] = bugs();
+
+            }
+            // Non-Bee squares are skipped
+            else {
+                continue;
+            }
+        }
+    }
+}
+
+/**
+ * @description Dynamically allocates a bee in the last column,
+ * resizes if needed to add another bee at last column.
+ */
 void game::generateBee() {
-    addRow();
-    gameBoard[0][9] = bees();
+
+    // Loops until empty last square found to place bee
+    for (int i = 0; i < this->gameBoard.size(); i++) {
+        if(this->gameBoard[i][9].symbol != "Bee") {
+            this->gameBoard[i][9] = bees();
+            break;
+        }
+
+        // If at end of list, adds a new row
+        else if (i == this->gameBoard.size() -1){
+            addRow();
+        }
+    }
+}
+
+/**
+ *
+ */
+void game::generateAnt(int location) {
+
+}
+
+/**
+ * @description
+ *
+ * @param input
+ * @return valid int
+ */
+int game::parseInt(std::string &input) {
+
+    int number;
+    istringstream iss(input);
+
+    // Valid parsed int
+    if (iss >> number) {
+        return number;
+    }
+
+    cout << "invalid input, not an integer" << endl;
+    return -1;
 }

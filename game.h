@@ -28,8 +28,10 @@ public:
     void addRow();
     void removeRow();
     void moveBee();
+    int parseInt(std::string &input);
 
     void generateBee();
+    void generateAnt(int location);
     void buyAnt();
     void placeAnt();
     void antAttack();
@@ -44,6 +46,6 @@ public:
 
     // Game board 2D Vector
     std::vector<std::vector<bugs>> gameBoard;
-
+    int beeCount;
 };
 #endif //ANTS_VS_BEES_GAME_H
