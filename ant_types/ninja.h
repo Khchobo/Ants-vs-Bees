@@ -20,6 +20,8 @@ public:
     // Destructor
     ~ninja();
 
+    // Utility Functions
+    void antsAttack();
 };
 
 

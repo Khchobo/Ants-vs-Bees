@@ -19,6 +19,9 @@ public:
 
     // Destructor
     ~wall();
+
+    // Utility Functions
+    void antsAttack();
 };
 
 

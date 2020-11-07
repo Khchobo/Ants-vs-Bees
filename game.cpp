@@ -18,22 +18,17 @@
 #include "./ant_types/wall.h"
 #include "./ant_types/ninja.h"
 #include "./ant_types/bodyguard.h"
+#include "tile.h"
 
 using namespace std;
 
 game::game() {
 
-        this->gameBoard = vector<vector<bugs>> (1);
-        this->gameBoard[0] = vector<bugs>(10);
-        this->foodBank = 50;
+    this->gameBoard = vector<tile> (10);
+    this->foodBank = 50;
 
-        // Initializing the Queen
-        gameBoard[0][0] = ants(true);
-
-    /**
-     *  [Q], [], [], [], [], [], [], [], [Fire], [Bee, Bee]
-     */
-
+    // Placing Queen ant in first tile space
+    gameBoard[0].firstAnt = ants(true);
     gameLoop();
 }
 
@@ -49,7 +44,6 @@ void game::gameLoop() {
         // 1) A bee is generated on the right side of the board
         generateBee();
         printGameBoard();
-        printVectors();
 
         // 2) The player can generate an ant and place it anywhere on the board
         //    (if they have enough food).
@@ -61,14 +55,13 @@ void game::gameLoop() {
         }
 
         // 3) The ants attack the bees. (Order of ant attacks occur left to right)
-            //antAttack();
+            antsTurn();
 
         /**
         * 4) The bees either attack an ant (order of attack is left to right) which is blocking
         * them or pass through to the next square on the board if they are not blocked by an ant
         */
         moveBee();
-        this->foodBank++; // for testing
 
     } while (!queenDead() && checkBeeCount() > 0);
 
@@ -88,37 +81,24 @@ void game::gameLoop() {
  */
 void game::printGameBoard() {
 
-    for(int i = 0; i < gameBoard[0].size(); i++) {
+    for(int i = 0; i < 10; i++) {
+        cout << "[" << i+1 << ": " << gameBoard[i].firstAnt.symbol << ", " <<
+        gameBoard[i].secondAnt.symbol << " | ";
 
-        string squareBugs = "";
-        for(int j = 0; j < gameBoard.size(); j++) {
+        // prints list of bees at each tile
+        for(int j = 0; j < gameBoard[i].beesList.size(); j++) {
 
-            string str = gameBoard[j][i].symbol;
-            squareBugs.append(str);
-
-            if(str != "" && j != gameBoard.size()-1) {
-                squareBugs.append(", ");
+            if(j < gameBoard[i].beesList.size() -1) {
+                cout << gameBoard[i].beesList[j].symbol << ", ";
+            }
+            else {
+                cout << gameBoard[i].beesList[j].symbol;
             }
         }
 
-        cout << "[" << i+1 << ": "<< squareBugs << " ] ";
+        cout << " ] ";
     }
-    cout << endl;
-}
-
-/**
- * @description Allocates space for a new 10 length bug vector.
- */
-void game::addRow() {
-    this->gameBoard.resize(gameBoard.size()+1);
-    this->gameBoard[gameBoard.size()-1] = vector<bugs> (10);
-}
-
-/**
- * @description Removes row of empty spaces in order to free up memory.
- */
-void game::removeRow() {
-    this->gameBoard.resize(gameBoard.size()-1);
+    cout << "\n";
 }
 
 /**
@@ -127,14 +107,12 @@ void game::removeRow() {
  */
 bool game::queenDead() {
 
-    for(int j = 0; j < gameBoard.size(); j++) {
-
-        if(gameBoard[j][0].symbol == "Bee") {
-            return true;
-        }
+    if(gameBoard[0].beesList.size() > 0) {
+        return true;
     }
-
-    return false;
+    else {
+        return false;
+    }
 }
 
 /**
@@ -142,15 +120,13 @@ bool game::queenDead() {
  * @return
  */
 int game::checkBeeCount() {
-
-    this->beeCount = 0;
+    beeCount = 0;
 
     for(int i = 0; i < gameBoard.size(); i++) {
 
-        for(int j = 0; j < gameBoard[i].size(); j++) {
-
-            if(j > 0 && gameBoard[i][j].symbol == "Bee") {
-                this->beeCount++;
+        for(int j = 0; j < gameBoard[i].beesList.size(); j++) {
+            if(gameBoard[i].beesList[j].symbol == "Bee") {
+                beeCount++;
             }
         }
     }
@@ -163,7 +139,7 @@ int game::getFood() {
 }
 
 void game::setFood(int cost) {
-    this->foodBank = foodBank - cost;
+    foodBank -= cost;
 }
 
 void game::buyAnt() {
@@ -226,17 +202,12 @@ void game::buyAnt() {
 }
 
 /**
- * NEED to stack body guard under any other ants
- * first check if there is an ant already there, then only bodyguard
- * can be added.
- */
-
-/**
+ * @description Creates a new ant type and returns a pointer
  *
- * @param antId
+ * @param antId -- the id for which ant type to be created
+ * @return ants * -- a pointer to the newly created ant type
  */
-void game::placeAnt(int antId) {
-
+ants game::createAntType(int antId) {
     ants a;
 
     switch (antId) {
@@ -266,6 +237,18 @@ void game::placeAnt(int antId) {
             break;
     }
 
+    return a;
+}
+
+/**
+ *
+ * @param antId
+ */
+void game::placeAnt(int antId) {
+
+    ants a;
+    a = createAntType(antId);
+
     cout << "--Select a location for the ant--" << endl;
     int location;
 
@@ -275,119 +258,99 @@ void game::placeAnt(int antId) {
         getline(cin, input);
         location = parseInt(input);
 
-    } while(location < 2 || location > 10);
+    } while(location < 1 || location > 10);
 
     switch (location) {
         case 2:
-            gameBoard[0][1] = a;
+            checkAntPos(1, a);
             break;
         case 3:
-            gameBoard[0][2] = a;
+            checkAntPos(2, a);
             break;
         case 4:
-            gameBoard[0][3] = a;
+            checkAntPos(3, a);
             break;
         case 5:
-            gameBoard[0][4] = a;
+            checkAntPos(4, a);
             break;
         case 6:
-            gameBoard[0][5] = a;
+            checkAntPos(5, a);
             break;
         case 7:
-            gameBoard[0][6] = a;
+            checkAntPos(6, a);
             break;
         case 8:
-            gameBoard[0][7] = a;
+            checkAntPos(7, a);
             break;
         case 9:
-            gameBoard[0][8] = a;
+            checkAntPos(8, a);
             break;
         case 10:
-            gameBoard[0][9] = a;
+            checkAntPos(9, a);
             break;
+    }
+}
+
+void game::checkAntPos(int loc, ants a) {
+    if(a.symbol == "BG") {
+        gameBoard[loc].secondAnt = a;
+    }
+    else {
+        gameBoard[loc].firstAnt = a;
     }
 }
 
 /**
  * @description all ants actions executed here
  */
-void game::antsAttack() {
-
-}
-
-void game::moveBee() {
+void game::antsTurn() {
 
     for(int i = 0; i < gameBoard.size(); i++) {
 
-        for(int j = 1; j < gameBoard[i].size(); j++) {
-
-            // Bee located
-            if(gameBoard[i][j].symbol == "Bee") {
-
-                // There is an ant here
-                if(gameBoard[0][j-1].symbol != "" && gameBoard[0][j-1].symbol != "Bee" && gameBoard[0][j-1].symbol != "Q") {
-                    cout << "battle" << endl;
-                }
-
-//                // There is an ant here
-//                else if(gameBoard[1][j-1].symbol != "" && gameBoard[1][j-1].symbol != "Bee" && gameBoard[1][j-1].symbol != "Q") {
-//                    cout << "battle" << endl;
-//                }
-
-                // Move the bees, no battles take place
-                else {
-
-                    for(int k = 0; k < gameBoard.size(); k++) {
-
-                        // Stack up bees if blocked by other bees (First row)
-                        if (gameBoard[k][j - 1].symbol != "Bee" && k == 0) {
-
-                            gameBoard[k][j - 1] = gameBoard[k][j];
-                            gameBoard[k][j] = bugs();
-                        }
-
-                        // Stack up bees if blocked by other bees (All other rows)
-                        else if (gameBoard[k][j - 1].symbol != "Bee" && k > 0) {
-
-                            gameBoard[k][j - 1] = gameBoard[0][j];
-                            gameBoard[0][j] = bugs();
-                        }
-
-                        // Need to stack dynamically in a loop
-                        else if (k == gameBoard.size() - 1) {
-                            addRow();
-                        }
-                    }
-
-                }
-
-            }
-            // Non-Bee squares are skipped
-            else {
-                continue;
-            }
+        if(gameBoard[i].firstAnt.symbol == "Harv") {
+            foodBank++;
+        }
+        else {
+            gameBoard[i].firstAnt.antsAttack();
         }
     }
 }
 
 /**
- * @description Dynamically allocates a bee in the last column,
- * resizes if needed to add another bee at last column.
+ * @description Moves list of bees over to left tile and starts a battle if there
+ * are occupying ants.
  */
-void game::generateBee() {
+void game::moveBee() {
 
-    // Loops until empty last square found to place bee
-    for (int i = 0; i < this->gameBoard.size(); i++) {
-        if(this->gameBoard[i][9].symbol != "Bee") {
-            this->gameBoard[i][9] = bees();
-            break;
+    for(int i = 1; i < gameBoard.size(); i++) {
+
+        // No ants occupying tiles space
+        if(gameBoard[i].firstAnt.symbol == "" && gameBoard[i].secondAnt.symbol == "") {
+
+            // Stacks bees into tile if blocked by ants
+            for(int j = 0; j < gameBoard[i].beesList.size(); j++) {
+                gameBoard[i-1].beesList.push_back(gameBoard[i].beesList[j]);
+            }
+            gameBoard[i].beesList.resize(0);
         }
+        else {
 
-        // If at end of list, adds a new row
-        else if (i == this->gameBoard.size() -1){
-            addRow();
+            // skips ants with no bees in tiles
+            if(gameBoard[i].beesList.size() == 0) {
+                continue;
+            }
+
+            cout << "battle" << endl;
+
         }
     }
+}
+
+/**
+ * @description Dynamically allocates a bee in the last column
+ */
+void game::generateBee() {
+    gameBoard[9].beesList.push_back(bees());
 }
 
 /**
@@ -408,17 +371,4 @@ int game::parseInt(std::string &input) {
 
     cout << "invalid input, not an integer" << endl;
     return -1;
-}
-
-void game::printVectors() {
-    cout << "--------------------------------------------------------------" << endl;
-    for(int i = 0; i < gameBoard.size(); i++) {
-
-        for(int j = 0; j < gameBoard[i].size(); j++) {
-            cout << "[" << gameBoard[i][j].symbol << "] ";
-        }
-        cout << "\n";
-    }
-    cout << "--------------------------------------------------------------" << endl;
-
 }

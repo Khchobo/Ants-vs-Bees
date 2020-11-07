@@ -11,9 +11,15 @@ short_thrower::short_thrower() {
 }
 
 short_thrower::short_thrower(short_thrower &orig) {
-
+    this->foodCost = orig.foodCost;
+    this->armor = orig.armor;
+    this->symbol = orig.symbol;
 }
 
 short_thrower::~short_thrower() {
+
+}
+
+void short_thrower::antsAttack() {
 
 }

@@ -11,9 +11,15 @@ fire::fire() {
 }
 
 fire::fire(fire &orig) {
-
+    this->foodCost = orig.foodCost;
+    this->armor = orig.armor;
+    this->symbol = orig.symbol;
 }
 
 fire::~fire() {
+
+}
+
+void fire::antsAttack() {
 
 }

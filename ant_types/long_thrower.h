@@ -20,6 +20,8 @@ public:
     // Destructor
     ~long_thrower();
 
+    // Utility Functions
+    void antsAttack();
 };
 
 

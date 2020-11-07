@@ -11,9 +11,15 @@ thrower::thrower() {
 }
 
 thrower::thrower(thrower &orig) {
-
+    this->foodCost = orig.foodCost;
+    this->armor = orig.armor;
+    this->symbol = orig.symbol;
 }
 
 thrower::~thrower() {
+
+}
+
+void thrower::antsAttack() {
 
 }

@@ -15,29 +15,22 @@ public:
     bugs();
 
     // Copy Constructor
-    bugs(bugs &orig);
+    bugs(const bugs &orig);
 
     bugs & operator=(const bugs &right);
 
-    bugs(nullptr_t pVoid);
-
-// Destructor
+    // Destructor
     ~bugs();
 
-    int armor;
-
-    int damage;
-
-    // symbol used to represent as a character on the game board
-    std::string symbol;
-
-    // This one will need some thought, this is placeholder
-    bool move(int xCoord);
-
-    bool isVacant;
-
+    // Utility Functions
     int getArmor();
     void setArmor(int currArmor);
+
+    // Fields
+    int armor;
+    int damage;
+    bool isVacant;
+    std::string symbol;
 };
 
 

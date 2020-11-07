@@ -15,7 +15,7 @@ public:
     bees();
 
     // Copy Constructor
-    bees(bees &orig);
+    bees(const bees &orig);
 
     // Destructor
     ~bees();

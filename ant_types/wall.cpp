@@ -11,9 +11,15 @@ wall::wall() {
 }
 
 wall::wall(wall &orig) {
-
+    this->foodCost = orig.foodCost;
+    this->armor = orig.armor;
+    this->symbol = orig.symbol;
 }
 
 wall::~wall() {
+
+}
+
+void wall::antsAttack() {
 
 }

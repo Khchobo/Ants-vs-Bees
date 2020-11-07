@@ -11,9 +11,15 @@ harvester::harvester() {
 }
 
 harvester::harvester(harvester &orig) {
-
+    this->foodCost = orig.foodCost;
+    this->armor = orig.armor;
+    this->symbol = orig.symbol;
 }
 
 harvester::~harvester() {
+
+}
+
+void harvester::antsAttack() {
 
 }

@@ -20,6 +20,8 @@ public:
     // Destructor
     ~harvester();
 
+    // Utility Functions
+    void antsAttack();
 };
 
 

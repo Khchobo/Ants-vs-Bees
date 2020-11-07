@@ -11,9 +11,15 @@ bodyguard::bodyguard() {
 }
 
 bodyguard::bodyguard(bodyguard &orig) {
-
+    this->foodCost = orig.foodCost;
+    this->armor = orig.armor;
+    this->symbol = orig.symbol;
 }
 
 bodyguard::~bodyguard() {
+
+}
+
+void bodyguard::antsAttack() {
 
 }

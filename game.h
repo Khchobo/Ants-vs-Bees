@@ -8,10 +8,10 @@
 #include <vector>
 #include <string>
 #include "bugs.h"
+#include "ants.h"
+#include "tile.h"
 
 class game {
-
-    int foodBank;
 
 public:
 
@@ -25,27 +25,28 @@ public:
 
     // Utility Functions
     void printGameBoard();
-    void addRow();
-    void removeRow();
-    void moveBee();
     int parseInt(std::string &input);
-
-    void generateBee();
-    void buyAnt();
-    void placeAnt(int antId);
-    void antsAttack();
-    void beesAttack(bugs b);
-
-    void printVectors();
-
     int getFood();
     void setFood(int cost);
-
     int checkBeeCount();
     bool queenDead();
 
-    // Game board 2D Vector
-    std::vector<std::vector<bugs>> gameBoard;
+    // Bees
+    void generateBee();
+    void moveBee();
+    void beesAttack(bugs b);
+
+    // Ants
+    void checkAntPos(int loc, ants a);
+    void buyAnt();
+    void placeAnt(int antId);
+    void antsTurn();
+    ants createAntType(int antId);
+
+    // Game Fields
+    std::vector<tile> gameBoard;
     int beeCount;
+    int foodBank;
+
 };
 #endif //ANTS_VS_BEES_GAME_H

@@ -22,11 +22,16 @@ public:
     // Copy Constructor
     ants(ants &orig);
 
+    // Equals Overload
+    ants & operator=(const ants &right);
+
     // Destructor
     ~ants();
 
     int foodCost;
 
+    // Utility Functions
+    void antsAttack();
 };
 
 
