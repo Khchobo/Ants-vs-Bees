@@ -11,9 +11,18 @@ thrower::thrower() {
 }
 
 thrower::thrower(thrower &orig) {
-
+    this->foodCost = orig.foodCost;
+    this->armor = orig.armor;
+    this->symbol = orig.symbol;
 }
 
+thrower & thrower::operator=(const thrower &right) {
+    this->foodCost = right.foodCost;
+    this->armor = right.armor;
+    this->symbol = right.symbol;
+}
+
+// Primitive data types are handled implicitly so there is nothing to destruct
 thrower::~thrower() {
 
 }

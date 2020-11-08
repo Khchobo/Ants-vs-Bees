@@ -17,6 +17,9 @@ public:
     // Copy Constructor
     ninja(ninja &orig);
 
+    // Equals Overload
+    ninja & operator=(const ninja &right);
+
     // Destructor
     ~ninja();
 

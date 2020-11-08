@@ -11,7 +11,7 @@ bugs::bugs() {
     isVacant = true;
 }
 
-bugs::bugs(bugs &orig) {
+bugs::bugs(const bugs &orig) {
     this->armor = orig.armor;
     this->symbol = orig.symbol;
     this->damage = orig.damage;
@@ -30,20 +30,7 @@ bugs & bugs::operator=(const bugs &right) {
     return (*this);
 }
 
+// Primitive data types are handled implicitly so there is nothing to destruct
 bugs::~bugs() {
 
-}
-
-
-// this one might be tricky
-bool bugs::move(int xCoord) {
-
-}
-
-int bugs::getArmor() {
-    return this->armor;
-}
-
-void bugs::setArmor(int currArmor) {
-    this->armor = currArmor;
 }

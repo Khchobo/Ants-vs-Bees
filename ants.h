@@ -7,7 +7,7 @@
 
 #include "bugs.h"
 #include <string>
-
+#include <vector>
 
 class ants: public bugs {
 
@@ -21,6 +21,9 @@ public:
 
     // Copy Constructor
     ants(ants &orig);
+
+    // Equals Overload
+    ants & operator=(const ants &right);
 
     // Destructor
     ~ants();

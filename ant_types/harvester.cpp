@@ -11,9 +11,18 @@ harvester::harvester() {
 }
 
 harvester::harvester(harvester &orig) {
-
+    this->foodCost = orig.foodCost;
+    this->armor = orig.armor;
+    this->symbol = orig.symbol;
 }
 
+harvester & harvester::operator=(const harvester &right) {
+    this->foodCost = right.foodCost;
+    this->armor = right.armor;
+    this->symbol = right.symbol;
+}
+
+// Primitive data types are handled implicitly so there is nothing to destruct
 harvester::~harvester() {
 
 }

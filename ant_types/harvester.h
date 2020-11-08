@@ -17,6 +17,9 @@ public:
     // Copy Constructor
     harvester(harvester &orig);
 
+    // Equals Overload
+    harvester & operator=(const harvester &right);
+
     // Destructor
     ~harvester();
 

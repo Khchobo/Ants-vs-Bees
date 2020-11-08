@@ -17,6 +17,9 @@ public:
     // Copy Constructor
     short_thrower(short_thrower &orig);
 
+    // Equals Overload
+    short_thrower & operator=(const short_thrower &right);
+
     // Destructor
     ~short_thrower();
 

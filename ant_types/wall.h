@@ -17,8 +17,12 @@ public:
     // Copy Constructor
     wall(wall &orig);
 
+    // Equals Overload
+    wall & operator=(const wall &right);
+
     // Destructor
     ~wall();
+
 };
 
 

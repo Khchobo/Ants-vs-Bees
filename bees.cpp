@@ -11,11 +11,14 @@ bees::bees() {
     symbol = "Bee";
 }
 
-bees::bees(bees &orig) {
+bees::bees(const bees &orig) {
     this->armor = orig.armor;
     this->damage = orig.damage;
+    this->symbol = orig.symbol;
+    this->isVacant = orig.isVacant;
 }
 
+// Primitive data types are handled implicitly so there is nothing to destruct
 bees::~bees() {
 
 }

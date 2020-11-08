@@ -17,8 +17,12 @@ public:
     // Copy Constructor
     thrower(thrower &orig);
 
+    // Equals Overload
+    thrower & operator=(const thrower &right);
+
     // Destructor
     ~thrower();
+
 };
 
 
