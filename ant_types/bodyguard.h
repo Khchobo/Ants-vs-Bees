@@ -17,6 +17,9 @@ public:
     // Copy Constructor
     bodyguard(bodyguard &orig);
 
+    // Equals Overload
+    bodyguard & operator=(const bodyguard &right);
+
     // Destructor
     ~bodyguard();
 

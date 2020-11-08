@@ -16,6 +16,12 @@ bodyguard::bodyguard(bodyguard &orig) {
     this->symbol = orig.symbol;
 }
 
+bodyguard & bodyguard::operator=(const bodyguard &right) {
+    this->foodCost = right.foodCost;
+    this->armor = right.armor;
+    this->symbol = right.symbol;
+}
+
 bodyguard::~bodyguard() {
 
 }

@@ -16,6 +16,12 @@ long_thrower::long_thrower(long_thrower &orig) {
     this->symbol = orig.symbol;
 }
 
+long_thrower & long_thrower::operator=(const long_thrower &right) {
+    this->foodCost = right.foodCost;
+    this->armor = right.armor;
+    this->symbol = right.symbol;
+}
+
 long_thrower::~long_thrower() {
 
 }

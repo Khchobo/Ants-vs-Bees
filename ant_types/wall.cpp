@@ -16,6 +16,12 @@ wall::wall(wall &orig) {
     this->symbol = orig.symbol;
 }
 
+wall & wall::operator=(const wall &right) {
+    this->foodCost = right.foodCost;
+    this->armor = right.armor;
+    this->symbol = right.symbol;
+}
+
 wall::~wall() {
 
 }

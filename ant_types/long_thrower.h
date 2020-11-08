@@ -17,6 +17,9 @@ public:
     // Copy Constructor
     long_thrower(long_thrower &orig);
 
+    // Equals Overload
+    long_thrower & operator=(const long_thrower &right);
+
     // Destructor
     ~long_thrower();
 

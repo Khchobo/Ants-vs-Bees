@@ -16,6 +16,12 @@ short_thrower::short_thrower(short_thrower &orig) {
     this->symbol = orig.symbol;
 }
 
+short_thrower & short_thrower::operator=(const short_thrower &right) {
+    this->foodCost = right.foodCost;
+    this->armor = right.armor;
+    this->symbol = right.symbol;
+}
+
 short_thrower::~short_thrower() {
 
 }

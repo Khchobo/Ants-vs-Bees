@@ -34,7 +34,8 @@ public:
     // Bees
     void generateBee();
     void moveBee();
-    void beesAttack(bugs b);
+    void beesTurn();
+    void postVictoryMove(bees &copiedBee, int tileLoc);
 
     // Ants
     void checkAntPos(int loc, ants a);

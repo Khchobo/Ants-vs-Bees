@@ -17,6 +17,9 @@ public:
     // Copy Constructor
     fire(fire &orig);
 
+    // Equals Overload
+    fire & operator=(const fire &right);
+
     // Destructor
     ~fire();
 

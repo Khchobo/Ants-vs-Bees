@@ -16,6 +16,12 @@ harvester::harvester(harvester &orig) {
     this->symbol = orig.symbol;
 }
 
+harvester & harvester::operator=(const harvester &right) {
+    this->foodCost = right.foodCost;
+    this->armor = right.armor;
+    this->symbol = right.symbol;
+}
+
 harvester::~harvester() {
 
 }

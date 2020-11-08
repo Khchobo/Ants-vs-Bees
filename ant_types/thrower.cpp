@@ -16,6 +16,12 @@ thrower::thrower(thrower &orig) {
     this->symbol = orig.symbol;
 }
 
+thrower & thrower::operator=(const thrower &right) {
+    this->foodCost = right.foodCost;
+    this->armor = right.armor;
+    this->symbol = right.symbol;
+}
+
 thrower::~thrower() {
 
 }

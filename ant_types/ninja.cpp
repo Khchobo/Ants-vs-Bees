@@ -16,6 +16,12 @@ ninja::ninja(ninja &orig) {
     this->symbol = orig.symbol;
 }
 
+ninja & ninja::operator=(const ninja &right) {
+    this->foodCost = right.foodCost;
+    this->armor = right.armor;
+    this->symbol = right.symbol;
+}
+
 ninja::~ninja() {
 
 }

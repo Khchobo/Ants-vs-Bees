@@ -245,10 +245,8 @@ ants game::createAntType(int antId) {
  * @param antId
  */
 void game::placeAnt(int antId) {
-
     ants a;
     a = createAntType(antId);
-
     cout << "--Select a location for the ant--" << endl;
     int location;
 
@@ -291,6 +289,13 @@ void game::placeAnt(int antId) {
     }
 }
 
+/**
+ * @description adds an ant to tile location and checks whether or not
+ * the given ant is a body guard, if so places in a space in a tile.
+ *
+ * @param loc -- the position to add the ant on the board
+ * @param a -- the ant object to be added to a tile
+ */
 void game::checkAntPos(int loc, ants a) {
     if(a.symbol == "BG") {
         gameBoard[loc].secondAnt = a;
@@ -314,6 +319,86 @@ void game::antsTurn() {
             gameBoard[i].firstAnt.antsAttack();
         }
     }
+}
+
+/**
+ *
+ */
+void game::beesTurn() {
+
+    int beeWhoWon = -1;
+    int tileLoc;
+    bees copyBee;
+
+    for(int i = 1; i < gameBoard.size(); i++) {
+
+        if(gameBoard[i].beesList.size() == 0) {
+            continue;
+        }
+
+        for(int j = 0; j < gameBoard[i].beesList.size(); j++) {
+
+            if(beeWhoWon != -1) {
+                break; // break doesn't work like this
+            }
+
+            // case for body guard blocking
+            if(gameBoard[i].secondAnt.symbol == "BG") {
+
+                gameBoard[i].secondAnt.armor -= 1;
+
+                // ant has died
+                if(gameBoard[i].secondAnt.armor <= 0) {
+                    gameBoard[i].secondAnt = ants();
+                }
+
+            }
+            // otherwise attack the ant in the tile
+            else {
+                gameBoard[i].firstAnt.armor -= 1;
+
+                // ant has died
+                if(gameBoard[i].firstAnt.armor <= 0) {
+                    gameBoard[i].firstAnt = ants();
+                    beeWhoWon = j;
+                    tileLoc = i;
+                }
+
+            }
+
+            // this makes a copy of the bee which one the fight
+            if(beeWhoWon != -1) {
+                copyBee = gameBoard[i].beesList[j];
+                break; // break doesn't work like this
+            }
+        }
+    }
+
+    // Now if the ants are all dead all but the bee who killed them may move on
+    if(beeWhoWon != -1) {
+        cout << "The bees defeated all ants in tile " << tileLoc + 1 << endl;
+        postVictoryMove(copyBee, tileLoc);
+    }
+    else {
+        cout << "The ants survived the battle" << endl;
+    }
+}
+
+/**
+ *
+ * @param copiedBee -- The bee who won the battle to stay at the tile
+ * @param tileLoc -- The tile index where the battle took place
+ */
+void game::postVictoryMove(bees &copiedBee, int tileLoc) {
+
+    // Moves all bees from battle to next tile
+    for(int j = 0; j < gameBoard[tileLoc].beesList.size(); j++) {
+        gameBoard[tileLoc-1].beesList.push_back(gameBoard[tileLoc].beesList[j]);
+    }
+
+    // clears current tile of bees then inserts the specific bee that won
+    gameBoard[tileLoc].beesList.resize(0);
+    gameBoard[tileLoc].beesList.push_back(copiedBee);
 }
 
 /**
@@ -341,7 +426,7 @@ void game::moveBee() {
             }
 
             cout << "battle" << endl;
-
+            beesTurn();
         }
     }
 }

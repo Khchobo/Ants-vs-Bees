@@ -9,16 +9,16 @@ ants::ants() {
     foodCost = 0;
     isVacant = false;
     symbol = "";
+    armor = 0;
 }
 
 ants::ants(bool isQueen) {
     if(isQueen) {
         symbol = "Q";
     }
-    else {
-        symbol = "";
-    }
+
     foodCost = 0;
+    armor = 1;
     isVacant = false;
 }
 
