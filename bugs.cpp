@@ -30,14 +30,7 @@ bugs & bugs::operator=(const bugs &right) {
     return (*this);
 }
 
+// Primitive data types are handled implicitly so there is nothing to destruct
 bugs::~bugs() {
 
-}
-
-int bugs::getArmor() {
-    return this->armor;
-}
-
-void bugs::setArmor(int currArmor) {
-    this->armor = currArmor;
 }

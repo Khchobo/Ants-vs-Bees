@@ -22,10 +22,6 @@ public:
     // Destructor
     ~bugs();
 
-    // Utility Functions
-    int getArmor();
-    void setArmor(int currArmor);
-
     // Fields
     int armor;
     int damage;

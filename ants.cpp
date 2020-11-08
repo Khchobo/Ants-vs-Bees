@@ -3,7 +3,6 @@
 //
 
 #include "ants.h"
-#include <iostream>
 
 ants::ants() {
     foodCost = 0;
@@ -36,6 +35,7 @@ ants & ants::operator=(const ants &right) {
     this->isVacant = right.isVacant;
 }
 
+// Primitive data types are handled implicitly so there is nothing to destruct
 ants::~ants() {
 
 }

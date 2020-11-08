@@ -18,6 +18,7 @@ bees::bees(const bees &orig) {
     this->isVacant = orig.isVacant;
 }
 
+// Primitive data types are handled implicitly so there is nothing to destruct
 bees::~bees() {
 
 }

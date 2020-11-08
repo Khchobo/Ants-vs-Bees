@@ -22,10 +22,7 @@ long_thrower & long_thrower::operator=(const long_thrower &right) {
     this->symbol = right.symbol;
 }
 
+// Primitive data types are handled implicitly so there is nothing to destruct
 long_thrower::~long_thrower() {
-
-}
-
-void long_thrower::antsAttack() {
 
 }

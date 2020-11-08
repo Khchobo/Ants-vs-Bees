@@ -22,10 +22,7 @@ bodyguard & bodyguard::operator=(const bodyguard &right) {
     this->symbol = right.symbol;
 }
 
+// Primitive data types are handled implicitly so there is nothing to destruct
 bodyguard::~bodyguard() {
-
-}
-
-void bodyguard::antsAttack() {
 
 }

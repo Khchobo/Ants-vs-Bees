@@ -22,10 +22,7 @@ short_thrower & short_thrower::operator=(const short_thrower &right) {
     this->symbol = right.symbol;
 }
 
+// Primitive data types are handled implicitly so there is nothing to destruct
 short_thrower::~short_thrower() {
-
-}
-
-void short_thrower::antsAttack() {
 
 }

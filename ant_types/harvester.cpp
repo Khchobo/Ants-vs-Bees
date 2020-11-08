@@ -22,10 +22,7 @@ harvester & harvester::operator=(const harvester &right) {
     this->symbol = right.symbol;
 }
 
+// Primitive data types are handled implicitly so there is nothing to destruct
 harvester::~harvester() {
-
-}
-
-void harvester::antsAttack() {
 
 }

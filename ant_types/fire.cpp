@@ -22,10 +22,7 @@ fire & fire::operator=(const fire &right) {
     this->symbol = right.symbol;
 }
 
+// Primitive data types are handled implicitly so there is nothing to destruct
 fire::~fire() {
-
-}
-
-void fire::antsAttack() {
 
 }

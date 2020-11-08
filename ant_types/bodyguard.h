@@ -23,9 +23,6 @@ public:
     // Destructor
     ~bodyguard();
 
-    // Utility Functions
-    void antsAttack();
-
 };
 
 

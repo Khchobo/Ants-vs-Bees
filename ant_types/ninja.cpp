@@ -22,10 +22,7 @@ ninja & ninja::operator=(const ninja &right) {
     this->symbol = right.symbol;
 }
 
+// Primitive data types are handled implicitly so there is nothing to destruct
 ninja::~ninja() {
-
-}
-
-void ninja::antsAttack() {
 
 }

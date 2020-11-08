@@ -22,10 +22,7 @@ thrower & thrower::operator=(const thrower &right) {
     this->symbol = right.symbol;
 }
 
+// Primitive data types are handled implicitly so there is nothing to destruct
 thrower::~thrower() {
-
-}
-
-void thrower::antsAttack() {
 
 }

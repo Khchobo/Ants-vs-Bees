@@ -23,8 +23,6 @@ public:
     // Destructor
     ~short_thrower();
 
-    // Utility Functions
-    void antsAttack();
 };
 
 

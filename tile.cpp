@@ -3,7 +3,6 @@
 //
 
 #include "tile.h"
-#include "bugs.h"
 #include <vector>
 
 tile::tile() {
@@ -24,6 +23,11 @@ tile & tile::operator=( tile &right) {
     this->beesList = right.beesList;
 }
 
+/**
+ * Vectors of objects allocated on the stack not the heap, the destructor
+ * for each object gets implicitly called after scope is lost.
+ * Similarly the firstAnt and secondAnt destructors get implicitly called.
+ */
 tile::~tile() {
 
 }
