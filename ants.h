@@ -7,7 +7,7 @@
 
 #include "bugs.h"
 #include <string>
-
+#include <vector>
 
 class ants: public bugs {
 
@@ -30,8 +30,6 @@ public:
 
     int foodCost;
 
-    // Utility Functions
-    void antsAttack();
 };
 
 

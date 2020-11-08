@@ -43,6 +43,8 @@ public:
     void placeAnt(int antId);
     void antsTurn();
     ants createAntType(int antId);
+    void shortThrower(int loc);
+    void longThrower(int loc);
 
     // Game Fields
     std::vector<tile> gameBoard;

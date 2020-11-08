@@ -9,7 +9,7 @@ ants::ants() {
     foodCost = 0;
     isVacant = false;
     symbol = "";
-    armor = 0;
+    armor = 1000;
 }
 
 ants::ants(bool isQueen) {
@@ -26,17 +26,16 @@ ants::ants(ants &orig) {
     this->armor = orig.armor;
     this->foodCost = orig.foodCost;
     this->symbol = orig.symbol;
+    this->isVacant = orig.isVacant;
 }
 
 ants & ants::operator=(const ants &right) {
     this->armor = right.armor;
     this->foodCost = right.foodCost;
     this->symbol = right.symbol;
+    this->isVacant = right.isVacant;
 }
 
 ants::~ants() {
 
-}
-
-void ants::antsAttack() {
 }

@@ -55,7 +55,7 @@ void game::gameLoop() {
         }
 
         // 3) The ants attack the bees. (Order of ant attacks occur left to right)
-            antsTurn();
+        antsTurn();
 
         /**
         * 4) The bees either attack an ant (order of attack is left to right) which is blocking
@@ -142,6 +142,9 @@ void game::setFood(int cost) {
     foodBank -= cost;
 }
 
+/**
+ *
+ */
 void game::buyAnt() {
 
     cout << "You have " << this->getFood() << " points" << endl;
@@ -256,7 +259,7 @@ void game::placeAnt(int antId) {
         getline(cin, input);
         location = parseInt(input);
 
-    } while(location < 1 || location > 10);
+    } while(location < 2 || location > 10);
 
     switch (location) {
         case 2:
@@ -314,9 +317,79 @@ void game::antsTurn() {
 
         if(gameBoard[i].firstAnt.symbol == "Harv") {
             foodBank++;
+            cout << "[Harvester] Collected 1 food for the colony!" << "\n" << endl;
+        }
+        else if(gameBoard[i].firstAnt.symbol == "Throw") {
+            if(gameBoard[i].beesList.size() > 0) {
+                gameBoard[i].beesList[0].armor -= 1;
+                if(gameBoard[i].beesList[0].armor <= 0) {
+                    gameBoard[i].beesList.erase(gameBoard[i].beesList.begin() + 0);
+                }
+            }
+            cout << "[Thrower] Did 1 damage to a bee in the same tile!" << "\n" << endl;
+        }
+        else if(gameBoard[i].firstAnt.symbol == "S-Throw") {
+            shortThrower(i);
+        }
+        else if(gameBoard[i].firstAnt.symbol == "L-Throw") {
+            longThrower(i);
         }
         else {
-            gameBoard[i].firstAnt.antsAttack();
+            continue;
+        }
+    }
+}
+
+/**
+ * @description a helper function that calculates damage the short thrower
+ * does to everything in range of 2 spaces
+ *
+ * @param loc -- the index the short thrower resides at
+ */
+void game::shortThrower(int loc) {
+
+    for(int i = loc; (i < loc+3) && (i < gameBoard.size()); i++) {
+
+        for(int j = 0; j < gameBoard[i].beesList.size(); j++) {
+
+            gameBoard[i].beesList[j].armor -= 1;
+
+            // if the bee's armor is reduced to zero it is deleted
+            if(gameBoard[i].beesList[j].armor <= 0 && j == 0) {
+                gameBoard[i].beesList.erase(gameBoard[i].beesList.begin() + (j));
+                foodBank++; // prevents infinite looping if there are no harvesters
+            }
+            else if(gameBoard[i].beesList[j].armor <= 0 && j > 0) {
+                gameBoard[i].beesList.erase(gameBoard[i].beesList.begin() + (j-1));
+                foodBank++; // prevents infinite looping if there are no harvesters
+            }
+        }
+    }
+}
+
+/**
+ * @description a helper function that calculates damage the long thrower
+ * does at 4 spaces away
+ *
+ * @param loc -- the index the long thrower resides at
+ */
+void game::longThrower(int loc) {
+
+    if(loc + 4 < gameBoard.size()) {
+        int i = loc + 4;
+
+        for (int j = 0; j < gameBoard[i].beesList.size(); j++) {
+
+            gameBoard[i].beesList[j].armor -= 1;
+
+            // if the bee's armor is reduced to zero it is deleted
+            if (gameBoard[i].beesList[j].armor <= 0 && j == 0) {
+                gameBoard[i].beesList.erase(gameBoard[i].beesList.begin() + (j));
+                foodBank++; // prevents infinite looping if there are no harvesters
+            } else if (gameBoard[i].beesList[j].armor <= 0 && j > 0) {
+                gameBoard[i].beesList.erase(gameBoard[i].beesList.begin() + (j - 1));
+                foodBank++; // prevents infinite looping if there are no harvesters
+            }
         }
     }
 }
@@ -329,18 +402,15 @@ void game::beesTurn() {
     int beeWhoWon = -1;
     int tileLoc;
     bees copyBee;
+    bool termEarly = false;
 
-    for(int i = 1; i < gameBoard.size(); i++) {
+    for(int i = 1; i < gameBoard.size() && !termEarly; i++) {
 
         if(gameBoard[i].beesList.size() == 0) {
             continue;
         }
 
-        for(int j = 0; j < gameBoard[i].beesList.size(); j++) {
-
-            if(beeWhoWon != -1) {
-                break; // break doesn't work like this
-            }
+        for(int j = 0; j < gameBoard[i].beesList.size() && !termEarly; j++) {
 
             // case for body guard blocking
             if(gameBoard[i].secondAnt.symbol == "BG") {
@@ -359,17 +429,27 @@ void game::beesTurn() {
 
                 // ant has died
                 if(gameBoard[i].firstAnt.armor <= 0) {
-                    gameBoard[i].firstAnt = ants();
-                    beeWhoWon = j;
-                    tileLoc = i;
+
+                    // Fire ant case
+                    if(gameBoard[i].firstAnt.symbol == "Fire") {
+                        gameBoard[i].firstAnt = ants();
+                        gameBoard[i].beesList.resize(0);
+                        termEarly = true;
+                        cout << "BOOM! the fire ant in tile " << i + 1 << " has detonated!" << endl;
+                    }
+                    else {
+                        gameBoard[i].firstAnt = ants();
+                        beeWhoWon = j;
+                        tileLoc = i;
+                    }
                 }
 
             }
 
             // this makes a copy of the bee which one the fight
             if(beeWhoWon != -1) {
-                copyBee = gameBoard[i].beesList[j];
-                break; // break doesn't work like this
+                copyBee = (gameBoard[i].beesList[j]);
+                termEarly = true;
             }
         }
     }
@@ -378,9 +458,6 @@ void game::beesTurn() {
     if(beeWhoWon != -1) {
         cout << "The bees defeated all ants in tile " << tileLoc + 1 << endl;
         postVictoryMove(copyBee, tileLoc);
-    }
-    else {
-        cout << "The ants survived the battle" << endl;
     }
 }
 
@@ -410,11 +487,31 @@ void game::moveBee() {
     for(int i = 1; i < gameBoard.size(); i++) {
 
         // No ants occupying tiles space
-        if(gameBoard[i].firstAnt.symbol == "" && gameBoard[i].secondAnt.symbol == "") {
+        if((gameBoard[i].firstAnt.symbol == "" && gameBoard[i].secondAnt.symbol == "") ||
+            (gameBoard[i].firstAnt.symbol == "Ninja" && gameBoard[i].secondAnt.symbol == "")) {
 
             // Stacks bees into tile if blocked by ants
             for(int j = 0; j < gameBoard[i].beesList.size(); j++) {
                 gameBoard[i-1].beesList.push_back(gameBoard[i].beesList[j]);
+            }
+
+            if(gameBoard[i].firstAnt.symbol == "Ninja") {
+                for(int j = 0; j < gameBoard[i].beesList.size(); j++) {
+
+                    gameBoard[i-1].beesList[j].armor -= 1;
+
+                    // if the bee's armor is reduced to zero it is deleted
+                    if(gameBoard[i-1].beesList[j].armor <= 0 && j == 0) {
+                        gameBoard[i-1].beesList.erase(gameBoard[i-1].beesList.begin() + (j));
+                        foodBank++; // prevents infinite looping if there are no harvesters
+                    }
+                    else if(gameBoard[i-1].beesList[j].armor <= 0 && j > 0) {
+                        gameBoard[i-1].beesList.erase(gameBoard[i-1].beesList.begin() + (j-1));
+                        foodBank++; // prevents infinite looping if there are no harvesters
+                    }
+                }
+
+                cout << "[!!! Sneak Attack !!!] The ninja in tile " << i+1 << " has back-stabbed all passing bees!" << "\n" << endl;
             }
             gameBoard[i].beesList.resize(0);
         }
@@ -425,7 +522,7 @@ void game::moveBee() {
                 continue;
             }
 
-            cout << "battle" << endl;
+            cout << "[Battle!!!] at tile "<< i+1 << "\n" << endl;
             beesTurn();
         }
     }
@@ -439,10 +536,11 @@ void game::generateBee() {
 }
 
 /**
- * @description
+ * @description Attempts to successfully parse and integer from a given
+ * string, if successful the int is returned otherwise -1 is returned
  *
- * @param input
- * @return valid int
+ * @param input -- the string input to be parsed
+ * @return int valid -- the successfully parsed integer or a -1
  */
 int game::parseInt(std::string &input) {
 
