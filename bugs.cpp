@@ -47,8 +47,3 @@ int bugs::getArmor() {
 void bugs::setArmor(int currArmor) {
     this->armor = currArmor;
 }
-
-// ????
-bugs::bugs(nullptr_t pVoid) {
-
-}

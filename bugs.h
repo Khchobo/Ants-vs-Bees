@@ -19,8 +19,6 @@ public:
 
     bugs & operator=(const bugs &right);
 
-    bugs(nullptr_t pVoid);
-
 // Destructor
     ~bugs();
 
